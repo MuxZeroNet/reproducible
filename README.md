@@ -11,15 +11,15 @@ Create reproducible archives
 
 - GitHub users: download the archive using the green button or from the Release section.
 
-- Git users: `git archive --format=tar.gz -o out.tar.gz master` or `... v1.2.3`
+- Git users: `git archive --format=tar.gz --prefix=topfolder/ -o out.tar.gz master` or `v1.2.3`
 
 - PyPI users: `python3 setup.py sdist`
 
-**Extract the archive**
+**Extract the archive, stripping the top folder**
 
 ```bash
 mkdir out_dir
-tar -xf out.tar.gz -C out_dir --strip_components=1
+tar -xf out.tar.gz -C out_dir --strip 1
 ```
 
 **Pack the archive, deterministically**
