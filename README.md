@@ -3,7 +3,8 @@ Create reproducible archives
 
 ## Usage
 ```bash
-./reproducible.py -d dir_to_archive -o archive.tar.gz --prepend RepoName-master
+./reproducible.py -d dir_to_archive -o archive.tar.gz  \
+                  --prepend RepoName-master --timestamp 1414213562
 ```
 
 ## Tips
@@ -27,3 +28,6 @@ tar -xf out.tar.gz -C out_dir --strip 1
 ```bash
 ./reproducible.py -d out_dir -o archive.tar.gz --prepend RepoName-master
 ```
+
+## Note
+Check your timestamps! Python uses the `zipfile` module to build wheels, and it has trouble dealing with pre-1980 timestamps.

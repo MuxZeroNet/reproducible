@@ -44,7 +44,7 @@ def setlocale(name):
         locale.setlocale(locale.LC_ALL, saved_locale)
 
 
-def archive_deterministically(dir_to_archive, dest_archive, prepend_path=None):
+def archive_deterministically(dir_to_archive, dest_archive, prepend_path=None, timestamp=0):
     """Create a .tar.gz archive in a deterministic (reproducible) manner.
 
     See https://reproducible-builds.org/docs/archives/ for more details."""
@@ -53,7 +53,7 @@ def archive_deterministically(dir_to_archive, dest_archive, prepend_path=None):
         """Helper to reset owner/group and modification time for tar entries"""
         tarinfo.uid = tarinfo.gid = 0
         tarinfo.uname = tarinfo.gname = "root"
-        tarinfo.mtime = 0
+        tarinfo.mtime = timestamp
         return tarinfo
 
     dest_archive = os.path.abspath(dest_archive)
@@ -88,6 +88,7 @@ def main():
     parser.add_argument('-d', '--dir', help='directory to archive')
     parser.add_argument('-o', '--out', help='archive destination')
     parser.add_argument('-p', '--prepend', help='prepend path')
+    parser.add_argument('-t', '--timestamp', help='timestamp of files', type=int, default=0)
 
     args = parser.parse_args()
 
@@ -97,7 +98,7 @@ def main():
                 'not %s' % repr((args.dir, args.out))
         raise ValueError(error)
 
-    archive_deterministically(args.dir, args.out, args.prepend)
+    archive_deterministically(args.dir, args.out, args.prepend, args.timestamp)
 
 
 if __name__ == '__main__':
